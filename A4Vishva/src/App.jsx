@@ -26,6 +26,7 @@ function App() {
       setLoading(true)
       setError('')
       setWeatherData(null)
+      setForecastData([])
 
       if (!API_KEY) {
         setError('Missing API key. Please add VITE_OPENWEATHER_API_KEY in .env file.')
@@ -45,6 +46,15 @@ function App() {
 
         const data = await response.json()
         setWeatherData(data)
+
+        const forecastResponse = await fetch(
+          `https://api.openweathermap.org/data/2.5/forecast?q=${searchCity}&appid=${API_KEY}&units=metric`,
+        )
+
+        if (forecastResponse.ok) {
+          const forecastJson = await forecastResponse.json()
+          setForecastData(forecastJson.list.slice(0, 10))
+        }
       } catch (fetchError) {
         setError(fetchError.message || 'Could not fetch weather data right now.')
       } finally {
