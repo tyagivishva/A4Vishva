@@ -42,6 +42,12 @@
   background: #1e40af;
 }
 
+.search-form button:disabled,
+.search-form input:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
 .weather-card,
 .forecast-list {
   background: #f8fafc;

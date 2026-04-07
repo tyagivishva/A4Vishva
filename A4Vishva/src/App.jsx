@@ -69,6 +69,7 @@ function App() {
     event.preventDefault()
 
     if (!city.trim()) {
+      setError('Please enter a city name before searching.')
       return
     }
 
@@ -83,7 +84,7 @@ function App() {
   return (
     <main className="app">
       <h1>Weather App</h1>
-      <SearchBar city={city} onCityChange={setCity} onSearch={handleSearch} />
+      <SearchBar city={city} onCityChange={setCity} onSearch={handleSearch} isLoading={loading} />
       <Loading show={loading} />
       <ErrorMessage message={error} />
       <WeatherCard weather={weatherData} />
