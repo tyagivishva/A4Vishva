@@ -1,16 +1,41 @@
-# React + Vite
+# PROG27545 - Assignment 4
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## React Weather App
 
-Currently, two official plugins are available:
+This project is a student-style weather app built with React and Vite.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Features
+- Search by city name
+- Show current weather:
+  - City name
+  - Temperature
+  - Description
+  - Humidity
+  - Wind speed
+- Loading, error, and no-data states
+- Bonus: 5-day forecast cards (rendered with `.map()`)
 
-## React Compiler
+### Tech Used
+- React (functional components)
+- React Hooks (`useState`, `useEffect`)
+- OpenWeather API
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Setup
+1. Install dependencies:
+	- `npm install`
+2. Create a local environment file in the project root:
+	- `.env`
+3. Add your API key:
+	- `VITE_OPENWEATHER_API_KEY=your_real_key`
+4. Run app:
+	- `npm run dev`
 
-## Expanding the ESLint configuration
+### API Endpoints Used
+- Current weather:
+  - `https://api.openweathermap.org/data/2.5/weather?q={city}&appid=YOUR_API_KEY&units=metric`
+- Forecast:
+  - `https://api.openweathermap.org/data/2.5/forecast?q={city}&appid=YOUR_API_KEY&units=metric`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Note
+- Do not put real keys in `.env.example`.
+- Keep real keys only in local `.env`.
