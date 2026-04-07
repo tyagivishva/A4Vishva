@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import SearchBar from './components/SearchBar'
 import WeatherCard from './components/WeatherCard'
 import ForecastList from './components/ForecastList'
@@ -6,13 +6,54 @@ import Loading from './components/Loading'
 import ErrorMessage from './components/ErrorMessage'
 import './App.css'
 
+const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY
+
 function App() {
   const [city, setCity] = useState('')
   const [searchCity, setSearchCity] = useState('')
+  const [hasSearched, setHasSearched] = useState(false)
   const [weatherData, setWeatherData] = useState(null)
   const [forecastData, setForecastData] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (!searchCity) {
+      return
+    }
+
+    const getCurrentWeather = async () => {
+      setLoading(true)
+      setError('')
+      setWeatherData(null)
+
+      if (!API_KEY) {
+        setError('Missing API key. Please add VITE_OPENWEATHER_API_KEY in .env file.')
+        setLoading(false)
+        return
+      }
+
+      try {
+        const response = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?q=${searchCity}&appid=${API_KEY}&units=metric`,
+        )
+
+        if (!response.ok) {
+          const errorData = await response.json()
+          throw new Error(errorData.message || 'City not found. Please try another city.')
+        }
+
+        const data = await response.json()
+        setWeatherData(data)
+      } catch (fetchError) {
+        setError(fetchError.message || 'Could not fetch weather data right now.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    getCurrentWeather()
+  }, [searchCity])
 
   const handleSearch = (event) => {
     event.preventDefault()
@@ -25,6 +66,7 @@ function App() {
     setLoading(false)
     setWeatherData(null)
     setForecastData([])
+    setHasSearched(true)
     setSearchCity(city.trim())
   }
 
@@ -36,7 +78,10 @@ function App() {
       <ErrorMessage message={error} />
       <WeatherCard weather={weatherData} />
       <ForecastList forecastItems={forecastData} />
-      {!searchCity && <p className="message">Search for a city to see weather data.</p>}
+      {!hasSearched && <p className="message">Search for a city to see weather data.</p>}
+      {hasSearched && !loading && !error && !weatherData && (
+        <p className="message">No weather data available for this city.</p>
+      )}
     </main>
   )
 }
