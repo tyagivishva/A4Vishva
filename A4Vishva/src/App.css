@@ -76,6 +76,10 @@
   padding: 10px;
 }
 
+.forecast-date {
+  font-weight: 700;
+}
+
 .message {
   margin-top: 14px;
   color: #475569;
