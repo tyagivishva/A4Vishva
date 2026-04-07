@@ -53,7 +53,7 @@ function App() {
 
         if (forecastResponse.ok) {
           const forecastJson = await forecastResponse.json()
-          setForecastData(forecastJson.list.slice(0, 10))
+          setForecastData(forecastJson.list)
         }
       } catch (fetchError) {
         setError(fetchError.message || 'Could not fetch weather data right now.')

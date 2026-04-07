@@ -3,7 +3,8 @@ function ForecastList({ forecastItems }) {
     return null
   }
 
-  const dailyItems = forecastItems.filter((item) => item.dt_txt.includes('12:00:00')).slice(0, 5)
+  const noonItems = forecastItems.filter((item) => item.dt_txt.includes('12:00:00'))
+  const dailyItems = (noonItems.length > 0 ? noonItems : forecastItems).slice(0, 5)
 
   return (
     <section className="forecast-list">
